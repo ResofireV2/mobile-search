@@ -1,7 +1,7 @@
 import app from 'flarum/admin/app';
 import Extend from 'flarum/common/extenders';
 
-export default [
+export const extend = [
   new Extend.Admin().setting(() => ({
     setting: 'resofire-mobile-search.style',
     type: 'select',
