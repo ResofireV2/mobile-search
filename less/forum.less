@@ -13,24 +13,33 @@
     display: none;
   }
 
-  // In bar mode, expand the injected GlobalSearch to fill available space.
+  // Stack toolbar-view items vertically so the sort dropdown and action buttons
+  // (refresh, mark-read) share the top row, and the search bar sits below as a
+  // full-width row — no wrapping or squeezing at any phone width.
   .IndexPage-toolbar {
-    display: flex;
+    // Anchor the action buttons to the top so they align with the sort dropdown,
+    // not the full height of the stacked toolbar-view.
+    align-items: flex-start;
 
     .IndexPage-toolbar-view {
       flex: 1;
-      display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: flex-start;
 
-      // Bar mode: let the Search input fill the row.
-      // Icon mode: the Button is fixed-width (36px via Button--icon), no flex needed.
-      .item-search .Search-input .FormControl {
-        width: 100%;
+      // Sort dropdown stays auto-width; it should not stretch to fill the column.
+      .item-sort {
+        width: auto;
       }
-    }
 
-    .IndexPage-toolbar-action {
-      display: flex;
+      // Bar mode: search fills the full column width.
+      // Icon mode: Button--icon is fixed 36px wide, width:100% is harmless.
+      .item-search {
+        width: 100%;
+
+        .Search-input .FormControl {
+          width: 100%;
+        }
+      }
     }
   }
 }
