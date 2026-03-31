@@ -1,45 +1,65 @@
-// On tablet and above, hide the search we inject into the IndexPage toolbar —
-// it only belongs on the mobile view.
+// ------------------------------------
+// Tablet and above: hide both injected items — the header GlobalSearch handles search.
 @media @tablet-up {
-  .IndexPage-toolbar-view .item-search {
-    display: none;
+  .IndexPage-toolbar-view {
+    .item-search-bar,
+    .item-search-icon {
+      display: none;
+    }
   }
 }
 
+// ------------------------------------
+// Phone (max-width: 767.98px)
 @media @phone {
-  // Hide the header GlobalSearch (item key 'search' -> class 'item-search') on the
-  // index page, because we surface search inline in the toolbar instead.
+  // Hide the header GlobalSearch on the index page.
   .App--index .Header-controls .item-search {
     display: none;
   }
 
-  // Stack toolbar-view items vertically so the sort dropdown and action buttons
-  // (refresh, mark-read) share the top row, and the search bar sits below as a
-  // full-width row — no wrapping or squeezing at any phone width.
+  // Keep the toolbar as a flat row with no wrapping.
   .IndexPage-toolbar {
-    // Anchor the action buttons to the top so they align with the sort dropdown,
-    // not the full height of the stacked toolbar-view.
-    align-items: flex-start;
+    align-items: center;
 
     .IndexPage-toolbar-view {
       flex: 1;
-      flex-direction: column;
-      align-items: flex-start;
+      flex-wrap: nowrap;
+    }
+  }
 
-      // Sort dropdown stays auto-width; it should not stretch to fill the column.
-      .item-sort {
-        width: auto;
-      }
+  .IndexPage-toolbar-view {
+    // Hide the icon button by default; it is only revealed at narrow widths below.
+    .item-search-icon {
+      display: none;
+    }
 
-      // Bar mode: search fills the full column width.
-      // Icon mode: Button--icon is fixed 36px wide, width:100% is harmless.
-      .item-search {
+    // Bar mode (>468px): the search bar takes up remaining space.
+    .item-search-bar {
+      flex: 1;
+
+      .Search-input .FormControl {
         width: 100%;
-
-        .Search-input .FormControl {
-          width: 100%;
-        }
       }
+    }
+
+    // At 468px and below: swap bar for icon button.
+    @media (max-width: 468px) {
+      .item-search-bar {
+        display: none;
+      }
+      .item-search-icon {
+        display: block;
+      }
+    }
+  }
+
+  // Icon mode (admin setting): always use the icon button, hide the bar entirely.
+  html.resofire-icon-mode .IndexPage-toolbar-view {
+    .item-search-bar {
+      display: none !important;
+    }
+    .item-search-icon {
+      display: block !important;
     }
   }
 }
