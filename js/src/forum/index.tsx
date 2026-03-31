@@ -8,11 +8,13 @@ import GlobalPostsSearchSource from 'flarum/forum/components/GlobalPostsSearchSo
 import GlobalUsersSearchSource from 'flarum/forum/components/GlobalUsersSearchSource';
 
 app.initializers.add('resofire-mobile-search', () => {
-  // If the admin has chosen icon-only mode, mark the root element so CSS can
-  // suppress the bar at ALL phone widths, not just <=468px.
-  if (app.forum.attribute('resofireMobileSearchStyle') === 'icon') {
-    document.documentElement.classList.add('resofire-icon-mode');
-  }
+  // app.forum is not yet available when initializers run — defer until beforeMount,
+  // which fires after app.forum is populated but before the DOM is rendered.
+  app.beforeMount(() => {
+    if (app.forum.attribute('resofireMobileSearchStyle') === 'icon') {
+      document.documentElement.classList.add('resofire-icon-mode');
+    }
+  });
 
   extend(IndexPage.prototype, 'viewItems', function (items) {
     const openSearchModal = () => {
