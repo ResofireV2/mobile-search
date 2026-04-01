@@ -28,38 +28,30 @@
   }
 
   .IndexPage-toolbar-view {
-    // Hide the icon button by default; it is only revealed at narrow widths below.
+    // The icon button is only used in admin icon mode — hide it by default.
     .item-search-icon {
       display: none;
     }
 
-    // Bar mode (>468px): the search bar takes up remaining space.
+    // The search bar fills remaining space and shrinks freely (min-width:0 overrides
+    // the browser default of min-width:auto, which would otherwise cause wrapping).
     .item-search-bar {
       flex: 1;
+      min-width: 0;
 
       .Search-input .FormControl {
         width: 100%;
       }
     }
-
-    // At 468px and below: swap bar for icon button.
-    @media (max-width: 468px) {
-      .item-search-bar {
-        display: none;
-      }
-      .item-search-icon {
-        display: block;
-      }
-    }
   }
 
-  // Icon mode (admin setting): always use the icon button, hide the bar entirely.
+  // Icon mode (admin setting): hide the bar, show the icon button instead.
   html.resofire-icon-mode .IndexPage-toolbar-view {
     .item-search-bar {
-      display: none !important;
+      display: none;
     }
     .item-search-icon {
-      display: block !important;
+      display: block;
     }
   }
 }
